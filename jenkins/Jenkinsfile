@@ -2,7 +2,10 @@ pipeline {
   agent any
   environment {
     PYTHONUNBUFFERED = 'TRUE'
-    SAGEMAKER_PROJECT_NAME_ID = 'mlops-jenkin-sm-pipelines'
+    SAGEMAKER_PROJECT_NAME_ID = """${sh(
+      returnStdout: true,
+      script: 'echo "${SAGEMAKER_PROJECT_NAME}-${SAGEMAKER_PROJECT_ID}"'
+      ).trim()}"""
   }
   stages {
     stage('Build and Install') {
